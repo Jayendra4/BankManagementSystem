@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: bank-management-api
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server-mock.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000

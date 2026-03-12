@@ -1,6 +1,33 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api'; // Use proxy for development
+// Central API base URL configuration
+const getApiBaseUrl = () => {
+  // Priority 1: Environment variable (for production)
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+  
+  // Priority 2: Check if we're in production (deployed on Vercel)
+  if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return 'https://bankbackend-vy7e.onrender.com/api';
+  }
+  
+  // Priority 3: Development - use proxy
+  return '/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
+// Log the current API base URL for debugging
+console.log('🔗 API Base URL:', API_BASE_URL);
+console.log('🌐 Environment:', {
+  hostname: window.location.hostname,
+  isProduction: window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1',
+  envVar: import.meta.env.VITE_API_BASE_URL
+});
+
+// Export utility function to get current API URL
+export const getCurrentApiUrl = () => API_BASE_URL;
 
 // Create axios instance
 const api = axios.create({
