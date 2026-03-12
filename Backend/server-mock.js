@@ -7,7 +7,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       'http://localhost:5173',
-      'https://bank-management-system-29sdb470g-jayendras-projects-60719684.vercel.app',
+      'https://bank-management-system-j1iav1hph-jayendras-projects-60719684.vercel.app',
       'https://bankbackend-vy7e.onrender.com'
     ];
     
@@ -30,9 +30,6 @@ const corsOptions = {
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -267,5 +264,5 @@ app.listen(PORT, () => {
   console.log(`📊 Available accounts: ${accounts.length}`);
   console.log(`🔗 API endpoint: http://localhost:${PORT}/api`);
   console.log(`🏥 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🌐 CORS enabled for: http://localhost:5173, https://bank-management-system-29sdb470g-jayendras-projects-60719684.vercel.app`);
+  console.log(`🌐 CORS enabled for: http://localhost:5173, https://bank-management-system-j1iav1hph-jayendras-projects-60719684.vercel.app`);
 });
