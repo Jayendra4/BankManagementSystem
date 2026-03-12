@@ -1,0 +1,65 @@
+{
+  "testAccounts": [
+    {
+      "name": "John Smith",
+      "data": {
+        "accountNumber": "ACC001",
+        "accountHolder": "John Smith",
+        "balance": 5000,
+        "email": "john.smith@example.com",
+        "phone": "5551234567"
+      }
+    },
+    {
+      "name": "Sarah Johnson",
+      "data": {
+        "accountNumber": "ACC002", 
+        "accountHolder": "Sarah Johnson",
+        "balance": 3200,
+        "email": "sarah.j@example.com",
+        "phone": "5559876543"
+      }
+    },
+    {
+      "name": "Mike Wilson",
+      "data": {
+        "accountNumber": "ACC003",
+        "accountHolder": "Mike Wilson", 
+        "balance": 8500,
+        "email": "mike.wilson@example.com",
+        "phone": "5554567890"
+      }
+    },
+    {
+      "name": "Emily Davis",
+      "data": {
+        "accountNumber": "ACC004",
+        "accountHolder": "Emily Davis",
+        "balance": 1200,
+        "email": "emily.davis@example.com", 
+        "phone": "5552345678"
+      }
+    },
+    {
+      "name": "Robert Brown",
+      "data": {
+        "accountNumber": "ACC005",
+        "accountHolder": "Robert Brown",
+        "balance": 7500,
+        "email": "robert.brown@example.com",
+        "phone": "5553456789"
+      }
+    }
+  ],
+  "updateData": {
+    "accountHolder": "John Smith Jr",
+    "email": "john.smith.jr@example.com",
+    "phone": "5551112222"
+  },
+  "depositData": {
+    "amount": 1500
+  },
+  "withdrawData": {
+    "amount": 800
+  }
+}

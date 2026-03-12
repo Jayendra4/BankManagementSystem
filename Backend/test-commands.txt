@@ -1,0 +1,30 @@
+# Quick Test Commands (Run in terminal)
+
+# 1. Create Account
+curl -X POST http://localhost:5000/api/accounts \
+  -H "Content-Type: application/json" \
+  -d '{"accountNumber":"ACC001","accountHolder":"John Doe","balance":1000,"email":"john@example.com","phone":"1234567890"}'
+
+# 2. Get All Accounts  
+curl http://localhost:5000/api/accounts
+
+# 3. Get Account by ID (replace ID)
+curl http://localhost:5000/api/accounts/YOUR_ACCOUNT_ID_HERE
+
+# 4. Deposit Money (replace ID)
+curl -X PUT http://localhost:5000/api/accounts/deposit/YOUR_ACCOUNT_ID_HERE \
+  -H "Content-Type: application/json" \
+  -d '{"amount":500}'
+
+# 5. Withdraw Money (replace ID)
+curl -X PUT http://localhost:5000/api/accounts/withdraw/YOUR_ACCOUNT_ID_HERE \
+  -H "Content-Type: application/json" \
+  -d '{"amount":200}'
+
+# 6. Update Account (replace ID)
+curl -X PUT http://localhost:5000/api/accounts/YOUR_ACCOUNT_ID_HERE \
+  -H "Content-Type: application/json" \
+  -d '{"accountHolder":"Jane Doe","email":"jane@example.com"}'
+
+# 7. Delete Account (replace ID)
+curl -X DELETE http://localhost:5000/api/accounts/YOUR_ACCOUNT_ID_HERE
