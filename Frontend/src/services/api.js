@@ -29,13 +29,14 @@ console.log('🌐 Environment:', {
 // Export utility function to get current API URL
 export const getCurrentApiUrl = () => API_BASE_URL;
 
-// Create axios instance
+// Create axios instance with enhanced configuration
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 10000, // 10 second timeout
+  timeout: 15000, // Increased timeout for production
+  withCredentials: false, // Important for CORS
 });
 
 // Request interceptor to add auth token

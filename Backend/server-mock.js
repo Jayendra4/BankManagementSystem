@@ -4,8 +4,14 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true
+  origin: [
+    'http://localhost:5173',
+    'https://bank-management-system-29sdb470g-jayendras-projects-60719684.vercel.app',
+    'https://bankbackend-vy7e.onrender.com'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 
@@ -126,9 +132,18 @@ app.delete('/api/accounts/:id', (req, res) => {
   res.json(deletedAccount);
 });
 
-// Health check
+// Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', timestamp: new Date().toISOString() });
+  res.json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    environment: process.env.NODE_ENV || 'development',
+    cors: {
+      origin: req.headers.origin,
+      allowed: true
+    }
+  });
 });
 
 // Error handling
