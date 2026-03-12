@@ -4,15 +4,18 @@ import axios from 'axios';
 const getApiBaseUrl = () => {
   // Priority 1: Environment variable (for production)
   if (import.meta.env.VITE_API_BASE_URL) {
+    console.log('Using environment variable API URL:', import.meta.env.VITE_API_BASE_URL);
     return import.meta.env.VITE_API_BASE_URL;
   }
   
   // Priority 2: Check if we're in production (deployed on Vercel)
   if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    console.log('Using production API URL');
     return 'https://bankbackend-vy7e.onrender.com/api';
   }
   
   // Priority 3: Development - use proxy
+  console.log('Using development API proxy');
   return '/api';
 };
 
@@ -35,7 +38,7 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000, // Increased timeout for production
+  timeout: 30000, // Increased timeout for production
   withCredentials: false, // Important for CORS
 });
 
@@ -46,11 +49,12 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    console.log('Making request to:', config.baseURL + config.url);
+    console.log('🚀 Making request to:', config.baseURL + config.url);
+    console.log('📤 Request headers:', config.headers);
     return config;
   },
   (error) => {
-    console.error('Request error:', error);
+    console.error('❌ Request error:', error);
     return Promise.reject(error);
   }
 );
@@ -58,14 +62,25 @@ api.interceptors.request.use(
 // Response interceptor to handle errors
 api.interceptors.response.use(
   (response) => {
-    console.log('Response received:', response.status, response.config.url);
+    console.log('✅ Response received:', response.status, response.config.url);
     return response;
   },
   (error) => {
-    console.error('Response error:', error);
+    console.error('❌ Response error:', error);
+    console.error('❌ Error details:', {
+      message: error.message,
+      code: error.code,
+      status: error.response?.status,
+      data: error.response?.data,
+      config: {
+        url: error.config?.url,
+        method: error.config?.method,
+        baseURL: error.config?.baseURL
+      }
+    });
     
-    if (error.code === 'NETWORK_ERROR') {
-      console.error('Network error - backend may be down');
+    if (error.code === 'NETWORK_ERROR' || error.code === 'ERR_NETWORK') {
+      console.error('🌐 Network error - backend may be down or CORS issue');
     }
     
     if (error.response?.status === 401) {
@@ -94,6 +109,7 @@ api.interceptors.response.use(
 export const authAPI = {
   login: async (credentials) => {
     try {
+      console.log('🔐 Attempting login with:', credentials.email);
       // Since your backend doesn't have auth endpoints, we'll simulate login
       // In a real app, this would be: api.post('/auth/login', credentials)
       const response = await api.get('/accounts');
@@ -103,17 +119,20 @@ export const authAPI = {
         const token = btoa(JSON.stringify({ id: user._id, email: user.email }));
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
+        console.log('✅ Login successful for:', user.email);
         return { user, token };
       }
+      console.log('❌ Invalid credentials for:', credentials.email);
       throw new Error('Invalid credentials');
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('❌ Login error:', error);
       throw error;
     }
   },
 
   signup: async (userData) => {
     try {
+      console.log('📝 Attempting signup for:', userData.email);
       // Create a new account as registration
       const response = await api.post('/accounts', {
         accountNumber: `ACC${Date.now()}`,
@@ -122,14 +141,16 @@ export const authAPI = {
         email: userData.email,
         phone: userData.password
       });
+      console.log('✅ Signup successful for:', userData.email);
       return response.data;
     } catch (error) {
-      console.error('Signup error:', error);
+      console.error('❌ Signup error:', error);
       throw error;
     }
   },
 
   logout: () => {
+    console.log('🚪 Logging out');
     localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
@@ -139,19 +160,39 @@ export const authAPI = {
 export const accountAPI = {
   getAllAccounts: async () => {
     try {
+      console.log('📊 Fetching all accounts');
       const response = await api.get('/accounts');
+      console.log('✅ Accounts fetched:', response.data.length);
       return response;
     } catch (error) {
-      console.error('Get accounts error:', error);
+      console.error('❌ Get accounts error:', error);
       throw error;
     }
   },
-  getAccountById: (id) => api.get(`/accounts/${id}`),
-  createAccount: (accountData) => api.post('/accounts', accountData),
-  updateAccount: (id, accountData) => api.put(`/accounts/${id}`, accountData),
-  deleteAccount: (id) => api.delete(`/accounts/${id}`),
-  deposit: (id, amount) => api.put(`/accounts/deposit/${id}`, { amount }),
-  withdraw: (id, amount) => api.put(`/accounts/withdraw/${id}`, { amount }),
+  getAccountById: (id) => {
+    console.log('🔍 Fetching account by ID:', id);
+    return api.get(`/accounts/${id}`);
+  },
+  createAccount: (accountData) => {
+    console.log('➕ Creating account:', accountData.accountNumber);
+    return api.post('/accounts', accountData);
+  },
+  updateAccount: (id, accountData) => {
+    console.log('✏️ Updating account:', id);
+    return api.put(`/accounts/${id}`, accountData);
+  },
+  deleteAccount: (id) => {
+    console.log('🗑️ Deleting account:', id);
+    return api.delete(`/accounts/${id}`);
+  },
+  deposit: (id, amount) => {
+    console.log('💰 Depositing to account:', id, 'Amount:', amount);
+    return api.put(`/accounts/deposit/${id}`, { amount });
+  },
+  withdraw: (id, amount) => {
+    console.log('💸 Withdrawing from account:', id, 'Amount:', amount);
+    return api.put(`/accounts/withdraw/${id}`, { amount });
+  },
 };
 
 export default api;
