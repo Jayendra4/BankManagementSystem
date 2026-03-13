@@ -15,6 +15,18 @@
       "destination": "https://bankbackend-vy7e.onrender.com/api/$1"
     },
     {
+      "src": "/assets/(.*)",
+      "destination": "/assets/$1"
+    },
+    {
+      "src": "/index.html",
+      "destination": "/index.html"
+    },
+    {
+      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|map))",
+      "destination": "/$1"
+    },
+    {
       "src": "/(.*)",
       "destination": "/index.html"
     }
