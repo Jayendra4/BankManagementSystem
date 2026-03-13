@@ -7,7 +7,7 @@ const app = express();
 
 // CORS Configuration
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5173'],
+  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://localhost:5173' ,  'https://bankmanagement4-6dqsysu85-jayendras-projects-60719684.vercel.app'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
