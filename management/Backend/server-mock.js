@@ -7,8 +7,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = [
       'http://localhost:5173',
-      'https://bank-management-system-j1iav1hph-jayendras-projects-60719684.vercel.app',
-      'https://bankbackend-vy7e.onrender.com'
+      'http://localhost:5000'
     ];
     
     // Allow requests with no origin (like mobile apps or curl requests)
@@ -264,5 +263,5 @@ app.listen(PORT, () => {
   console.log(`📊 Available accounts: ${accounts.length}`);
   console.log(`🔗 API endpoint: http://localhost:${PORT}/api`);
   console.log(`🏥 Health check: http://localhost:${PORT}/api/health`);
-  console.log(`🌐 CORS enabled for: http://localhost:5173, https://bank-management-system-j1iav1hph-jayendras-projects-60719684.vercel.app`);
+  console.log(`🌐 CORS enabled for: http://localhost:5173, http://localhost:5000`);
 });

@@ -12,7 +12,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "destination": "https://bankbackend-vy7e.onrender.com/api/$1"
+      "destination": "http://localhost:5000/api/$1"
     },
     {
       "src": "/assets/(.*)",
@@ -32,6 +32,6 @@
     }
   ],
   "env": {
-    "VITE_API_BASE_URL": "https://bankbackend-vy7e.onrender.com/api"
+    "VITE_API_BASE_URL": "http://localhost:5000/api"
   }
 }
